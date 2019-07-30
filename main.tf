@@ -1,12 +1,30 @@
-variable "name" { default = "REPLACE_ME" }
-variable "cidr" { default = "10.139.0.0/16" }
+########################################################################
+# Root Module / main.tf
+########################################################################
 
-module "network" {
-  source = "modules/network"
-
-  name = "${var.name}"
-  cidr = "${var.cidr}"
+# Deploy AWS provider
+provider "aws" {
+  region = "${var.aws_region}"
 }
 
-output "env"      { value = "${var.name}" }
-output "vpc_cidr" { value = "${module.network.vpc_cidr}" }
+# Deploy Networking Resources
+module "networking" {
+  source       = "./modules/networking"
+  vpc_cidr     = "${var.vpc_cidr}"
+  public_cidrs = "${var.public_cidrs}"
+  accessip     = "${var.accessip}"
+}
+
+# Deploy Compute Resources
+module "compute" {
+  source          = "./modules/compute"
+  key_name        = "${var.key_name}"
+  public_key_path = "${var.public_key_path}"
+  instance_type   = "${var.server_instance_type}"
+
+  //instance_count  = "${var.instance_count}"
+  subnets         = "${module.networking.public_subnets}"
+  security_groups = "${module.networking.public_sg}"
+  subnet_ips      = "${module.networking.subnet_ips}"
+  vpc_id          = "${module.networking.vpc_id}"
+}
