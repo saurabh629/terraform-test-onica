@@ -28,8 +28,8 @@ set prior to starting Terraform workflow
 
 **Step 1.** *set AWS credentials*   
       e.g.    
-```export AWS_ACCESS_KEY_ID="AKIA45ONG6SOCJR7SMLY"```  
-```export AWS_SECRET_ACCESS_KEY="Sl205XJROQTbNTLnsnKwB7gkonFALygv2zjaHqIQ"```  
+```export AWS_ACCESS_KEY_ID="XXXXXXXXXX"```  
+```export AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXXXXXXXX"```  
 
 **Step 2.** Initialize Terraform providers and modules  
     ```Terraform init```  
